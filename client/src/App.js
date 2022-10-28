@@ -1,22 +1,24 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
 import SignUp from "./SignUp"
 import ItemList from "./ItemList"
 import UserItemList from "./UserItemList"
-import LogIn from "./LogIn"
+import LogIn from "./LogIn.js"
 import SubmitItem from "./SubmitItem"
 import SubmitUserItem from "./SubmitUserItem"
+import Navbar from "./Navbar"
 
 function App() {
   const [items, setItems] = useState([]);
   const [userItems, setUserItems] = useState([])
-  const [users, setUsers] = useState([])
-
+  const [user, setUser] = useState(null);
+  
   useEffect(() => {
-    fetch("users")
-      .then((r) => r.json())
-      .then((data) => setUsers(data));
+    fetch("/me").then((response) => {
+      if (response.ok) {
+        response.json().then((user) => setUser(user));
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -34,25 +36,26 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Navbar user={user} onLogout={setUser}/>
       <div className="App">
         <Switch>
-          <Route exact path="/ItemList">
-            <ItemList items={items}/>
-          </Route>
-          <Route exact path="/UserItemList">
-            <UserItemList userItems={userItems}/>
-          </Route> 
-          <Route exact path="/">
-            <LogIn/>
-          </Route>    
+        <Route exact path="/">
+            <LogIn user={user}onLogin={setUser}/>
+          </Route>  
           <Route exact path="/SignUp">
             <SignUp/>
+          </Route>
+          <Route exact path="/ItemList">
+            <ItemList items={items}/>
           </Route>
           <Route exact path="/SubmitItem">
             <SubmitItem/>
           </Route>   
+          <Route exact path="/UserItemList">
+            {user != null ? <UserItemList user={user} userItems={userItems}/> : <LogIn onLogin={setUser}/>}
+          </Route> 
           <Route exact path="/SubmitUserItem">
-            <SubmitUserItem/>
+            {user != null ? <SubmitUserItem user={user} items={items}/> : <LogIn onLogin={setUser}/>}
           </Route>         
         </Switch>
       </div>

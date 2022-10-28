@@ -1,19 +1,24 @@
 import {useState} from "react"
 
-function LogIn(){
+function LogIn({user, onLogin}){
     
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [users, setUsers] = useState([])
 
     function handleSubmit(e) {
-        e.preventDefault()
-        useEffect(() => {
-            fetch("users")
-                .then((r) => r.json())
-                .then((data) => setUsers(data))
-        }, [])
-    }
+        e.preventDefault();
+        fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+        })
+        .then((r) => { 
+            if (r.ok) {
+                r.json()}})
+        .then((user) => onLogin(user))
+      }
     
     return(
         <form onSubmit={handleSubmit}>
@@ -31,7 +36,7 @@ function LogIn(){
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button type="submit">Sign Up</button>
+            <button type="submit">Login</button>
         </form>
     )
 }

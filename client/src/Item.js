@@ -2,23 +2,34 @@
 
 function Item({i}){
 
-    function handleEdit(){
+    // function handleEdit(){
+    //     fetch(`http://localhost:3000/user_items/`, {
+    //     method: 'PATCH',
+    //     body: JSON.stringify({
+    //         title: 'foo',
+    //     }),
+    //     headers: {
+    //         'Content-type': 'application/json',
+    //     },
+    //     })
+    //     .then((response) => response.json())
+    //     .then((json) => console.log(json));
 
-    }
+    // }
 
-    function handleDelete(){
-        fetch(`/items/${i.id}`, 
-        { method: 'DELETE' })
-        .then(async response => {
+    // function handleDelete(){
+    //     fetch(`/items/${i.id}`, 
+    //     { method: 'DELETE' })
+    //     .then(async response => {
             
-            if (!response.ok) {
+    //         if (!response.ok) {
                 
-            const error = response.status;
-            return Promise.reject(error);
+    //         const error = response.status;
+    //         return Promise.reject(error);
         
-            }
-        }
-    )}
+    //         }
+    //     }
+    // )}
     
     return (
         
@@ -36,9 +47,6 @@ function Item({i}){
             <p style={{ width: 100 }}>
                 {i.description}
             </p>
-            
-            <button>Edit</button>
-            <button onClick={handleDelete}>Delete</button>
 
             <br/><br/>
         

@@ -1,27 +1,20 @@
-import Item from "./Item"
+import UserItem from "./UserItem"
 
-function UserItemList({userItems}){
-
-    // const itemList = items.filter(i => {
-    //     return (i.user_items.map( arr =>{
-    //         return (
-    //             arr.user_id    
-    //         )}
-    //         )      
-    //     ) == 2
-    // })
-  
-    const itemList = userItems.filter( i => {
-        return i.user_id == 2
-    })
-    const comp = itemList.map(i => {
-        return <Item key={i.id} i={i.item}/>
+function UserItemList({user, userItems}){
+    
+    const itemList = userItems.filter(i => {
+        console.log(i)
+        return i.user_id == user.id
     })
     
-    
+    const filter = itemList.map(i => {
+        return (
+            <UserItem key={i.id} i={i.item}/>
+        )
+    })
     return (
     <>
-    {comp}
+    {filter}
     </>
     )
 }

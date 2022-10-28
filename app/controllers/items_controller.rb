@@ -23,29 +23,7 @@ class ItemsController < ApplicationController
         end 
     end
     
-    def update
-        item = Item.find_by(id: params[:id])
-        if item
-            item.update(item_params)
-            if item.valid?
-                render json: item, status: :accepted
-            else
-                render json: { errors: item.errors }, status: :unprocessable_entity
-            end
-        else
-            render json: { error: "Item Not Found!" }, status: :not_found
-        end 
-    end
-
-    def destroy
-        item = Item.find_by(id: params[:id])
-        if item
-            item.destroy
-            render json: {}, status: :no_content
-        else
-            render json: { error: "Item Not Found!" }, status: :not_found
-        end 
-    end
+    
 
     private
 
